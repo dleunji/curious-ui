@@ -7,7 +7,7 @@ export const writePost = ({ title, body }) => {
     content: body,
     categoryId: 201,
   });
-  return client.post("/api/Question", {
+  return client.post("/api/Questions", {
     memberId: 1,
     title,
     content: body,

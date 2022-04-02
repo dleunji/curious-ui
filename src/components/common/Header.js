@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 import Button from "./Button";
 import Responsive from "./Responsive";
@@ -23,7 +24,6 @@ const Wrapper = styled(Responsive)`
     align-items: center;
     font-size: 1.8rem;
     font-family: "Fredoka One", cursive;
-    color: ;
   }
 
   .right {
@@ -43,11 +43,16 @@ const Header = () => {
       <HeaderBlock>
         <Wrapper>
           <div className="logo">
-            <img src={logoURL} />
+            <img alt="logo" src={logoURL} />
             Curious
           </div>
           <div className="right">
-            <Button>로그인</Button>
+            <Link to="signin">
+              <Button>로그인</Button>
+            </Link>
+            <Link to="register">
+              <Button>회원가입</Button>
+            </Link>
           </div>
         </Wrapper>
       </HeaderBlock>
