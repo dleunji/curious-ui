@@ -1,10 +1,12 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router";
 import AuthForm from "../../components/auth/AuthForm";
 import { changeField, initializeForm, register } from "../../modules/auth";
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { form, auth, authError } = useSelector(({ auth }) => ({
     form: auth.register,
     auth: auth.auth,
@@ -18,7 +20,7 @@ const RegisterForm = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
-
+    console.log("회원가입");
     const { memberName, mailAddress, password } = form;
     dispatch(register({ memberName, mailAddress, password }));
   };
@@ -38,6 +40,7 @@ const RegisterForm = () => {
     if (auth) {
       console.log("회원가입 성공");
       console.log(auth);
+      navigate("/");
     }
   }, [auth, authError]);
 

@@ -27,8 +27,8 @@ export const register = createAction(
   })
 );
 
-export const signin = createAction(SIGNIN, ({ memberName, password }) => ({
-  memberName,
+export const signin = createAction(SIGNIN, ({ mailAddress, password }) => ({
+  mailAddress,
   password,
 }));
 

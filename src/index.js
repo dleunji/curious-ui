@@ -10,12 +10,23 @@ import { createStore, applyMiddleware } from "redux";
 import createSagaMiddleware from "redux-saga";
 import { composeWithDevTools } from "redux-devtools-extension";
 import { rootSaga } from "./modules";
+import { tempSetUser } from "./modules/user";
 const rootElement = document.getElementById("root");
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
   rootReducer,
   composeWithDevTools(applyMiddleware(sagaMiddleware))
 );
+
+function loadUser() {
+  try {
+    const user = localStorage.getItem("user");
+    if (!user) return;
+    store.dispatch(tempSetUser(user));
+  } catch (e) {
+    console.log("localStorage is not working");
+  }
+}
 
 ReactDOM.createRoot(rootElement).render(
   <Provider store={store}>
@@ -26,6 +37,7 @@ ReactDOM.createRoot(rootElement).render(
 );
 
 sagaMiddleware.run(rootSaga);
+loadUser();
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
 // or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals

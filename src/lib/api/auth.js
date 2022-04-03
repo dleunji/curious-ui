@@ -11,6 +11,10 @@ export const register = ({ memberName, mailAddress, password }) => {
 
 // 로그인
 export const signin = ({ mailAddress, password }) => {
+  console.log({
+    mailAddress,
+    memberPassword: password,
+  });
   return client.post("/api/Members/signin", {
     mailAddress,
     memberPassword: password,
