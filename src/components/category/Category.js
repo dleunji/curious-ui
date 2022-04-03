@@ -7,6 +7,7 @@ const CategoryBlock = styled(Responsive)`
 `;
 
 const Category = ({ categories, selection, onChangeCategory }) => {
+  // 대,중,소분류
   const largeCategories = categories?.$values;
   const middleCategories =
     categories?.$values[selection.large]?.inverseParentCategory.$values;

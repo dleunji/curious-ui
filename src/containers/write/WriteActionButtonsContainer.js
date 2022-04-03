@@ -27,6 +27,8 @@ const WriteActionButtonsContainer = () => {
     if (post) {
       // 데이터 추출
       console.log(post);
+      const questionId = post.questionId;
+      navigate(`/questions/${questionId}`);
     }
     if (postError) {
       console.log(postError);
