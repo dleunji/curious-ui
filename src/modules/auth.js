@@ -8,6 +8,7 @@ import * as authAPI from "../lib/api/auth";
 
 const CHANGE_FIELD = "auth/CHANGE_FIELD";
 const INITIALIZE_FORM = "auth/INITIALIZE_FORM";
+const INITIALIZE_AUTH = "auth/INITIALIZE_AUTH";
 const [REGISTER, REGISTER_SUCCESS, REGISTER_FAILURE] =
   createRequestActionTypes("auth/REGISTER");
 const [SIGNIN, SIGNIN_SUCCESS, SIGNIN_FAILURE] =
@@ -18,6 +19,7 @@ export const changeField = createAction(
 );
 
 export const initializeForm = createAction(INITIALIZE_FORM, (form) => form);
+export const initializeAuth = createAction(INITIALIZE_AUTH);
 export const register = createAction(
   REGISTER,
   ({ memberName, mailAddress, password }) => ({
@@ -64,6 +66,11 @@ const auth = handleActions(
     [INITIALIZE_FORM]: (state, { payload: form }) => ({
       ...state,
       [form]: initialState[form],
+    }),
+    [INITIALIZE_AUTH]: (state) => ({
+      ...state,
+      auth: null,
+      authError: null,
     }),
     // 회원가입 성공
     [REGISTER_SUCCESS]: (state, { payload: auth }) => ({

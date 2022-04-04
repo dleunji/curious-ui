@@ -2,7 +2,12 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router";
 import AuthForm from "../../components/auth/AuthForm";
-import { changeField, initializeForm, register } from "../../modules/auth";
+import {
+  changeField,
+  initializeAuth,
+  initializeForm,
+  register,
+} from "../../modules/auth";
 
 const RegisterForm = () => {
   const dispatch = useDispatch();
@@ -41,6 +46,7 @@ const RegisterForm = () => {
       console.log("회원가입 성공");
       console.log(auth);
       navigate("/");
+      dispatch(initializeAuth());
     }
   }, [auth, authError]);
 
@@ -50,6 +56,7 @@ const RegisterForm = () => {
       form={form}
       onChange={onChange}
       onSubmit={onSubmit}
+      authError={authError}
     />
   );
 };

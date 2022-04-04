@@ -3,6 +3,10 @@ import Button from "../common/Button";
 import { Link } from "react-router-dom";
 const AuthFormBlock = styled.div`
   margin: 30px 5px;
+  .error-info {
+    display: flex;
+    justify-content: center;
+  }
   h3 {
     display: flex;
     justify-content: center;
@@ -46,7 +50,7 @@ const textMap = {
   register: "회원가입",
 };
 // 회원가입 또는 로그인 폼
-const AuthForm = ({ type, form, onChange, onSubmit }) => {
+const AuthForm = ({ type, form, onChange, onSubmit, authError }) => {
   const text = textMap[type];
   return (
     <AuthFormBlock>
@@ -79,6 +83,11 @@ const AuthForm = ({ type, form, onChange, onSubmit }) => {
             value={form.password}
           />
         </div>
+        {authError ? (
+          <div className="error-info">
+            {type === "signin" ? "로그인 실패" : "회원가입 실패"}
+          </div>
+        ) : null}
         <Button
           className="login-button"
           backgroundColor="#f27983"
