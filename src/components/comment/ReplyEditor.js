@@ -10,7 +10,6 @@ const CommentEditorBlock = styled.div`
       height: 4rem;
       resize: vertical;
       // height: 5rem;
-      margin: 15px 0px;
     }
   }
   .button {
@@ -24,6 +23,7 @@ const ReplyEditor = ({
   commentBox,
   parentCommentId,
   onPostReply,
+  onCancel,
 }) => {
   return (
     <CommentEditorBlock>
@@ -34,6 +34,13 @@ const ReplyEditor = ({
           value={commentBox}
         />
         <div className="button">
+          <Button
+            backgroundColor="rgb(239, 239, 239)"
+            height="2rem"
+            onClick={(e) => onCancel()}
+          >
+            취소
+          </Button>
           <Button
             color="white"
             backgroundColor="#F2CF66"

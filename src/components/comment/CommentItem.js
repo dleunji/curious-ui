@@ -4,8 +4,7 @@ import { useState } from "react";
 import CommentEditor from "./CommentEditor";
 import ReplyEditor from "./ReplyEditor";
 const CommentItemBlock = styled.div`
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  margin: 30px 0px;
   .header {
     display: flex;
     align-items: center;
@@ -21,6 +20,7 @@ const CommentItemBlock = styled.div`
     .reply-post {
       font-size: 15px;
       margin-left: 10px;
+      cursor: pointer;
     }
   }
   .content {
@@ -34,9 +34,6 @@ const CommentItemBlock = styled.div`
 
   &:first-child {
     padding-top: 0;
-  }
-  & + & {
-    border-top: 1px solid #c5c5c5;
   }
 
   h2 {
@@ -53,24 +50,29 @@ const CommentItemBlock = styled.div`
   }
 `;
 
-const CommentItem = ({ comment, onPostReply, members }) => {
+const CommentItem = ({ comment, onPostReply, members, user }) => {
   const id = comment.$id || comment.$ref;
   const [openReply, setOpenReply] = useState(false);
   const [reply, setReply] = useState("");
-  const member = members.filter(
-    (member) => member.memberId === comment.memberId
-  );
-  console.log(member);
+
+  const onCancel = () => setOpenReply(false);
+
   return (
     <CommentItemBlock>
-      {comment && (
+      {comment && members && (
         <>
           <div className="header">
-            <div className="member-name">{member.memberName}</div>
+            <div className="member-name">
+              {
+                members.filter(
+                  (member) => member.memberId === comment.memberId
+                )[0].memberName
+              }
+            </div>
             <span className="date">
               {new Date(comment.createdAt).toLocaleDateString()}
             </span>
-            {comment.depth < 2 && (
+            {comment.depth < 2 && user && (
               <span className="reply-post" onClick={() => setOpenReply(true)}>
                 답글
               </span>
@@ -83,12 +85,14 @@ const CommentItem = ({ comment, onPostReply, members }) => {
               commentBox={reply}
               parentCommentId={comment.commentId}
               onPostReply={onPostReply}
+              onCancel={onCancel}
             />
           )}
           <ReplyList
             onPostReply={onPostReply}
             members={members}
             replies={comment.inverseParentComment}
+            user={user}
           />
         </>
       )}

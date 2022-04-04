@@ -13,14 +13,17 @@ const CommentList = ({
   onPostReply,
   members,
   comments,
+  user,
 }) => {
   return (
     <CommentListBlock>
-      <CommentEditor
-        onChangeField={onChangeField}
-        commentBox={commentBox}
-        onPostComment={onPostComment}
-      />
+      {user && (
+        <CommentEditor
+          onChangeField={onChangeField}
+          commentBox={commentBox}
+          onPostComment={onPostComment}
+        />
+      )}
       {comments
         ? comments.$values.map((comment, idx) => (
             <CommentItem
@@ -28,6 +31,7 @@ const CommentList = ({
               key={idx}
               onPostReply={onPostReply}
               members={members}
+              user={user}
             />
           ))
         : null}
