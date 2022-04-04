@@ -1,8 +1,8 @@
-import Quill from "quill";
-import "quill/dist/quill.snow.css";
-import { useEffect, useRef } from "react";
-import styled from "styled-components";
-import Responsive from "../common/Responsive";
+import Quill from 'quill';
+import 'quill/dist/quill.snow.css';
+import { useEffect, useRef } from 'react';
+import styled from 'styled-components';
+import Responsive from '../common/Responsive';
 const EditorBlock = styled(Responsive)`
   padding-top: 5rem;
   padding-bottom: 3rem;
@@ -13,7 +13,7 @@ const TitleInput = styled.input`
   outline: none;
   padding-bottom: 0.5rem;
   border: none;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid #c5c5c5;
   margin-bottom: 2rem;
   width: 100%;
 `;
@@ -40,29 +40,29 @@ const Editor = ({ onChangeField, title, body }) => {
 
   useEffect(() => {
     quillInstance.current = new Quill(quillElement.current, {
-      theme: "snow",
-      placeholder: "내용을 작성하세요...",
+      theme: 'snow',
+      placeholder: '내용을 작성하세요...',
       modules: {
         // 더 많은 옵션
         toolbar: [
-          [{ header: "1" }, { header: "2" }],
-          ["bold", "italic", "underline", "strike"],
-          [{ list: "ordered" }, { list: "bullet" }],
-          ["blockquote", "code-block", "link", "image"],
+          [{ header: '1' }, { header: '2' }],
+          ['bold', 'italic', 'underline', 'strike'],
+          [{ list: 'ordered' }, { list: 'bullet' }],
+          ['blockquote', 'code-block', 'link', 'image'],
         ],
       },
     });
 
     const quill = quillInstance.current;
-    quill.on("text-change", (delta, oldDelta, source) => {
-      if (source === "user") {
-        onChangeField({ key: "body", value: quill.root.innerHTML });
+    quill.on('text-change', (delta, oldDelta, source) => {
+      if (source === 'user') {
+        onChangeField({ key: 'body', value: quill.root.innerHTML });
       }
     });
   }, [onChangeField]);
 
   const onChangeTitle = (e) => {
-    onChangeField({ key: "title", value: e.target.value });
+    onChangeField({ key: 'title', value: e.target.value });
   };
 
   return (

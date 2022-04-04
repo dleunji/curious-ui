@@ -1,8 +1,8 @@
-import styled from "styled-components";
-import Responsive from "../common/Responsive";
-import Button from "../common/Button";
-import SubInfo from "../common/SubInfo";
-import { Link } from "react-router-dom";
+import styled from 'styled-components';
+import Responsive from '../common/Responsive';
+import Button from '../common/Button';
+import SubInfo from '../common/SubInfo';
+import { Link } from 'react-router-dom';
 const PostListBlock = styled(Responsive)`
   margin-top: 3rem;
 `;
@@ -47,15 +47,16 @@ const PostItem = ({ post }) => {
     createdAt,
     updatedAt,
     viewedCnt,
-    memberId,
+    member,
   } = post;
+  const { memberName } = member;
   return (
-    <Link to={`/questions/${questionId}`}>
-      <PostItemBlock>
+    <PostItemBlock>
+      <Link to={`/questions/${questionId}`}>
         <h2>{title}</h2>
-        <SubInfo memberName={memberId} publishedDate={new Date(createdAt)} />
-      </PostItemBlock>
-    </Link>
+      </Link>
+      <SubInfo memberName={memberName} publishedDate={new Date(createdAt)} />
+    </PostItemBlock>
   );
 };
 

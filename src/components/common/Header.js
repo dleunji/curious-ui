@@ -1,7 +1,7 @@
-import { Link } from "react-router-dom";
-import styled from "styled-components";
-import Button from "./Button";
-import Responsive from "./Responsive";
+import { Link } from 'react-router-dom';
+import styled from 'styled-components';
+import Button from './Button';
+import Responsive from './Responsive';
 
 const HeaderBlock = styled.div`
   postion: fixed;
@@ -23,7 +23,8 @@ const Wrapper = styled(Responsive)`
     display: flex;
     align-items: center;
     font-size: 1.8rem;
-    font-family: "Fredoka One", cursive;
+    font-family: 'Fredoka One', cursive;
+    cursor: pointer;
   }
 
   .right {
@@ -44,12 +45,12 @@ const UserInfo = styled.div`
 `;
 
 const logoURL = `${process.env.PUBLIC_URL}/images/FAQ_perspective_matte.png`;
-const Header = ({ user, onSignOut }) => {
+const Header = ({ user, onSignOut, onClick }) => {
   return (
     <>
       <HeaderBlock>
         <Wrapper>
-          <div className="logo">
+          <div className="logo" onClick={onClick}>
             <img alt="logo" src={logoURL} />
             Curious
           </div>

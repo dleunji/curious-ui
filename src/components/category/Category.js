@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import Responsive from "../common/Responsive";
-import CategoryItem from "./CategoryItem";
+import styled from 'styled-components';
+import Responsive from '../common/Responsive';
+import CategoryItem from './CategoryItem';
 const CategoryBlock = styled(Responsive)`
   display: flex;
   justify-content: space-between;
@@ -9,12 +9,20 @@ const CategoryBlock = styled(Responsive)`
 const Category = ({ categories, selection, onChangeCategory }) => {
   // 대,중,소분류
   const largeCategories = categories?.$values;
-  const middleCategories =
-    categories?.$values[selection.large]?.inverseParentCategory.$values;
+  console.log(largeCategories);
+  const middleCategories = selection.large
+    ? largeCategories.find((c) => c.categoryId === selection.large)
+        ?.inverseParentCategory.$values
+    : [];
+  console.log(middleCategories);
   const smallCategories =
-    categories?.$values[selection.large]?.inverseParentCategory.$values[
-      selection.middle
-    ]?.inverseParentCategory.$values;
+    selection.large && selection.middle
+      ? middleCategories.find((c) => c.categoryId === selection.middle)
+          ?.inverseParentCategory.$values
+      : [];
+  // categories?.$values[selection.large]?.inverseParentCategory.$values[
+  //   selection.middle
+  // ]?.inverseParentCategory.$values;
 
   return (
     <CategoryBlock>

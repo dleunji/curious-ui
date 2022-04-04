@@ -1,6 +1,6 @@
-import styled from "styled-components";
-import SubInfo from "../common/SubInfo";
-import Responsive from "../common/Responsive";
+import styled from 'styled-components';
+import SubInfo from '../common/SubInfo';
+import Responsive from '../common/Responsive';
 
 const PostViewerBlock = styled(Responsive)`
   margin-top: 4rem;
@@ -32,13 +32,14 @@ const PostViewer = ({ post, error, loading }) => {
   if (loading || !post) {
     return null;
   }
-  const { title, content, createdAt, updatedAt, viewedCnt, memberId } = post;
+  const { title, content, createdAt, updatedAt, viewedCnt, member } = post;
+  const { memberName } = member;
   return (
     <PostViewerBlock>
       <PostHead>
         <h1>{title}</h1>
         <SubInfo
-          memberName={memberId}
+          memberName={memberName}
           publishedDate={new Date(createdAt).toLocaleDateString()}
         />
       </PostHead>

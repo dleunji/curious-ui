@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 const CategoryItemBlock = styled.div`
   width: 20rem;
@@ -32,8 +32,10 @@ const CategoryItem = ({ type, selection, categories, onChangeCategory }) => {
       {categories?.map((category, idx) => (
         <div
           key={idx}
-          className={`category-item ${selection === idx ? "selected" : ""}`}
-          onClick={() => onChangeCategory({ type, idx })}
+          className={`category-item ${
+            selection === category.categoryId ? 'selected' : ''
+          }`}
+          onClick={() => onChangeCategory({ type, idx: category.categoryId })}
         >
           {category.categoryName}
         </div>

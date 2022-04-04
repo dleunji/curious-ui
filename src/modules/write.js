@@ -1,23 +1,28 @@
-import { createAction, handleActions } from "redux-actions";
+import { createAction, handleActions } from 'redux-actions';
 import createRequestSaga, {
   createRequestActionTypes,
-} from "../lib/createRequestSaga";
-import * as postsAPI from "../lib/api/posts";
-import { takeLatest } from "@redux-saga/core/effects";
-const INITIALIZE = "write/INITIALIZE";
-const CHANGE_FIELD = "write/CHANGE_FIELD";
+} from '../lib/createRequestSaga';
+import * as postsAPI from '../lib/api/posts';
+import { takeLatest } from '@redux-saga/core/effects';
+const INITIALIZE = 'write/INITIALIZE';
+const CHANGE_FIELD = 'write/CHANGE_FIELD';
 const [WRITE_POST, WRITE_POST_SUCCESS, WRITE_POST_FAILURE] =
-  createRequestActionTypes("write/WRITE_POST");
+  createRequestActionTypes('write/WRITE_POST');
 
 export const initialize = createAction(INITIALIZE);
 export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
   key,
   value,
 }));
-export const writePost = createAction(WRITE_POST, ({ title, body }) => ({
-  title,
-  body,
-}));
+export const writePost = createAction(
+  WRITE_POST,
+  ({ title, body, memberId, categoryId }) => ({
+    title,
+    body,
+    memberId,
+    categoryId,
+  }),
+);
 
 // 사가 생성
 const writePostSaga = createRequestSaga(WRITE_POST, postsAPI.writePost);
@@ -25,8 +30,8 @@ export function* writeSaga() {
   yield takeLatest(WRITE_POST, writePostSaga);
 }
 const initialState = {
-  title: "",
-  body: "",
+  title: '',
+  body: '',
   post: null,
   postError: null,
 };
@@ -52,7 +57,7 @@ const write = handleActions(
       postError,
     }),
   },
-  initialState
+  initialState,
 );
 
 export default write;

@@ -1,11 +1,11 @@
-import client from "./client";
-import qs from "qs";
-export const writePost = ({ title, body }) => {
-  return client.post("/api/Questions", {
-    memberId: 1,
+import client from './client';
+import qs from 'qs';
+export const writePost = ({ title, body, memberId, categoryId }) => {
+  return client.post('/api/Questions', {
+    memberId,
     title,
     content: body,
-    categoryId: 201,
+    categoryId,
   });
 };
 

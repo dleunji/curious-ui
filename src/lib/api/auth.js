@@ -1,8 +1,13 @@
-import client from "./client";
+import client from './client';
 
 // 회원가입
 export const register = ({ memberName, mailAddress, password }) => {
-  return client.post("/api/Members/register", {
+  console.log({
+    memberName,
+    mailAddress,
+    memberPassword: password,
+  });
+  return client.post('/api/Members/register', {
     memberName,
     mailAddress,
     memberPassword: password,
@@ -15,7 +20,7 @@ export const signin = ({ mailAddress, password }) => {
     mailAddress,
     memberPassword: password,
   });
-  return client.post("/api/Members/signin", {
+  return client.post('/api/Members/signin', {
     mailAddress,
     memberPassword: password,
   });

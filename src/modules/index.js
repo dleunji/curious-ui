@@ -1,14 +1,15 @@
-import { combineReducers } from "redux";
-import write from "./write";
-import loading from "./loading";
-import auth from "./auth";
-import user from "./user";
-import category, { getCategorySaga } from "./category";
-import posts, { postsSaga } from "./posts";
-import post, { postSaga } from "./post";
-import { all } from "@redux-saga/core/effects";
-import { writeSaga } from "./write";
-import { authSaga } from "./auth";
+import { combineReducers } from 'redux';
+import write from './write';
+import loading from './loading';
+import auth from './auth';
+import user from './user';
+import category, { getCategorySaga } from './category';
+import comment, { commentSaga } from './comment';
+import posts, { postsSaga } from './posts';
+import post, { postSaga } from './post';
+import { all } from '@redux-saga/core/effects';
+import { writeSaga } from './write';
+import { authSaga } from './auth';
 const rootReducer = combineReducers({
   auth,
   write,
@@ -17,6 +18,7 @@ const rootReducer = combineReducers({
   category,
   posts,
   post,
+  comment,
 });
 
 export function* rootSaga() {
@@ -26,6 +28,7 @@ export function* rootSaga() {
     getCategorySaga(),
     postsSaga(),
     postSaga(),
+    commentSaga(),
   ]);
 }
 
