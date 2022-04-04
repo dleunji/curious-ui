@@ -23,7 +23,6 @@ const CommentEditor = ({ onChangeField, commentBox, onPostComment }) => {
   return (
     <CommentEditorBlock>
       <form>
-        <span>이은지</span>
         <textarea
           placeholder="댓글을 입력하세요..."
           onChange={onChangeField}

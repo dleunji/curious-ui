@@ -8,10 +8,12 @@ const CHANGE_FIELD = "comment/CHANGE_FIELD";
 const INITIALIZE = "comment/INITIALIZE";
 const [WRITE_COMMENT, WRITE_COMMENT_SUCCESS, WRITE_COMMENT_FAILURE] =
   createRequestActionTypes("comment/WRITE_COMMENT");
+const [WRITE_REPLY, WRITE_REPLY_SUCCESS, WRITE_REPLY_FAILURE] =
+  createRequestActionTypes("comment/WRITE_REPLY");
 const [LIST_COMMENTS, LIST_COMMENTS_SUCCESS, LIST_COMMENTS_FAILURE] =
   createRequestActionTypes("comment/LIST_COMMENTS");
-const APPEND_COMMENT = "comment/APPEND_COMMENT";
-const APPEND_MEMBER = "comment/APPEND_MEMBER";
+const [LIST_MEMBERS, LIST_MEMBERS_SUCCESS, LIST_MEMBERS_FAILURE] =
+  createRequestActionTypes("comment/LIST_MEMBERS");
 
 export const initialize = createAction(INITIALIZE);
 export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
@@ -26,26 +28,42 @@ export const writeComment = createAction(
     content,
   })
 );
-export const appendComment = createAction(APPEND_COMMENT, (comment) => comment);
-export const appendMember = createAction(APPEND_MEMBER, (member) => member);
+export const writeReply = createAction(
+  WRITE_REPLY,
+  ({ memberId, questionId, content, parentCommentId }) => ({
+    memberId,
+    questionId,
+    content,
+    parentCommentId,
+  })
+);
+
 export const listComments = createAction(
   LIST_COMMENTS,
   (questionId) => questionId
 );
-
+export const listMembers = createAction(
+  LIST_MEMBERS,
+  (questionId) => questionId
+);
 const writeCommentSaga = createRequestSaga(
   WRITE_COMMENT,
   commentAPI.writeComment
 );
 
+const writeReplySaga = createRequestSaga(WRITE_REPLY, commentAPI.writeReply);
+
 const listCommentsSaga = createRequestSaga(
   LIST_COMMENTS,
   commentAPI.listComments
 );
+const listMembersSaga = createRequestSaga(LIST_MEMBERS, commentAPI.listMembers);
 
 export function* commentSaga() {
   yield takeLatest(WRITE_COMMENT, writeCommentSaga);
   yield takeLatest(LIST_COMMENTS, listCommentsSaga);
+  yield takeLatest(WRITE_REPLY, writeReplySaga);
+  yield takeLatest(LIST_MEMBERS, listMembersSaga);
 }
 
 const intialState = {
@@ -56,6 +74,10 @@ const intialState = {
   commentDict: {},
   memberDict: {},
   comments: null,
+  reply: null,
+  replyError: null,
+  member: null,
+  memberError: null,
 };
 const comment = handleActions(
   {
@@ -89,13 +111,31 @@ const comment = handleActions(
       ...state,
       commentError,
     }),
-    [APPEND_COMMENT]: (state, { payload: { id, comment } }) => ({
+    [WRITE_REPLY]: (state) => ({
       ...state,
-      commentDict: { ...state.commentDict, [id]: comment },
+      reply: null,
+      replyError: null,
     }),
-    [APPEND_MEMBER]: (state, { payload: { id, member } }) => ({
+    [WRITE_REPLY_SUCCESS]: (state, { payload: reply }) => ({
       ...state,
-      memberDict: { ...state.memberDict, [id]: member },
+      reply,
+    }),
+    [WRITE_REPLY_FAILURE]: (state, { payload: replyError }) => ({
+      ...state,
+      replyError,
+    }),
+    [LIST_MEMBERS]: (state) => ({
+      ...state,
+      member: null,
+      memberError: null,
+    }),
+    [LIST_MEMBERS_SUCCESS]: (state, { payload: members }) => ({
+      ...state,
+      member: members.$values,
+    }),
+    [LIST_MEMBERS_FAILURE]: (state, { payload: memberError }) => ({
+      ...state,
+      memberError,
     }),
   },
   intialState

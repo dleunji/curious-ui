@@ -10,14 +10,12 @@ const CommentList = ({
   onChangeField,
   commentBox,
   onPostComment,
+  onPostReply,
+  members,
   comments,
-  commentDict,
-  memberDict,
 }) => {
-  console.log(comments);
   return (
     <CommentListBlock>
-      <div>댓글 {Object.keys(commentDict).length}개</div>
       <CommentEditor
         onChangeField={onChangeField}
         commentBox={commentBox}
@@ -27,9 +25,9 @@ const CommentList = ({
         ? comments.$values.map((comment, idx) => (
             <CommentItem
               comment={comment}
-              commentDict={commentDict}
-              memberDict={memberDict}
               key={idx}
+              onPostReply={onPostReply}
+              members={members}
             />
           ))
         : null}

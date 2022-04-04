@@ -5,12 +5,20 @@ const ReplyListBlock = styled.div`
   margin-left: 30px;
   margin-top: 30px;
 `;
-const ReplyList = ({ replies }) => {
+const ReplyList = ({ replies, members, onPostReply }) => {
   if (replies?.$values.length === 0) return null;
   return (
     <ReplyListBlock>
-      {/* <CommentItem depth={depth} /> */}
-      {/* <CommentEditor /> */}
+      {replies
+        ? replies.$values.map((reply, idx) => (
+            <CommentItem
+              members={members}
+              comment={reply}
+              onPostReply={onPostReply}
+              key={idx}
+            />
+          ))
+        : null}
     </ReplyListBlock>
   );
 };

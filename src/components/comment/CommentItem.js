@@ -2,6 +2,7 @@ import styled from "styled-components";
 import ReplyList from "./ReplyList";
 import { useState } from "react";
 import CommentEditor from "./CommentEditor";
+import ReplyEditor from "./ReplyEditor";
 const CommentItemBlock = styled.div`
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -52,36 +53,43 @@ const CommentItemBlock = styled.div`
   }
 `;
 
-const CommentItem = ({ comment, commentDict, memberDict }) => {
+const CommentItem = ({ comment, onPostReply, members }) => {
   const id = comment.$id || comment.$ref;
   const [openReply, setOpenReply] = useState(false);
   const [reply, setReply] = useState("");
+  const member = members.filter(
+    (member) => member.memberId === comment.memberId
+  );
+  console.log(member);
   return (
     <CommentItemBlock>
-      {commentDict.hasOwnProperty(id) && (
+      {comment && (
         <>
           <div className="header">
-            <div className="member-name">
-              {memberDict.hasOwnProperty(commentDict[id].memberId) &&
-                memberDict[commentDict[id].memberId].memberName}
-            </div>
+            <div className="member-name">{member.memberName}</div>
             <span className="date">
-              {new Date(commentDict[id].createdAt).toLocaleDateString()}
+              {new Date(comment.createdAt).toLocaleDateString()}
             </span>
-            {commentDict[id].depth < 2 && (
+            {comment.depth < 2 && (
               <span className="reply-post" onClick={() => setOpenReply(true)}>
                 답글
               </span>
             )}
           </div>
-          <div className="content">{commentDict[id].content}</div>
+          <div className="content">{comment.content}</div>
           {openReply && (
-            <CommentEditor
+            <ReplyEditor
               onChangeField={(e) => setReply(e.target.value)}
               commentBox={reply}
+              parentCommentId={comment.commentId}
+              onPostReply={onPostReply}
             />
           )}
-          <ReplyList replies={comment.inverseParentComment} />
+          <ReplyList
+            onPostReply={onPostReply}
+            members={members}
+            replies={comment.inverseParentComment}
+          />
         </>
       )}
     </CommentItemBlock>

@@ -4,20 +4,21 @@ import {
   changeField,
   listComments,
   writeComment,
+  writeReply,
 } from "../../modules/comment";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback, useEffect } from "react";
 
 const CommentContainer = () => {
-  const { commentBox, memberId, post, comments, commentDict, memberDict } =
-    useSelector(({ comment, user, post }) => ({
+  const { commentBox, memberId, post, comments, members } = useSelector(
+    ({ comment, user, post }) => ({
       commentBox: comment.commentBox,
       memberId: user.user.memberId,
       post: post.post,
       comments: comment.comments,
-      commentDict: comment.commentDict,
-      memberDict: comment.memberDict,
-    }));
+      members: comment.member,
+    })
+  );
   const dispatch = useDispatch();
   const onChangeField = useCallback(
     (payload) => {
@@ -39,10 +40,18 @@ const CommentContainer = () => {
     );
   };
 
-  useEffect(() => {
-    console.log(commentDict);
-    console.log(memberDict);
-  }, [commentDict, memberDict]);
+  // 답글 등록
+  const onPostReply = (e, parentCommentId, content) => {
+    e.preventDefault();
+    dispatch(
+      writeReply({
+        content,
+        memberId,
+        questionId: post.questionId,
+        parentCommentId,
+      })
+    );
+  };
 
   return (
     <CommentList
@@ -50,8 +59,8 @@ const CommentContainer = () => {
       commentBox={commentBox}
       onPostComment={onPostComment}
       comments={comments}
-      commentDict={commentDict}
-      memberDict={memberDict}
+      onPostReply={onPostReply}
+      members={members}
     />
   );
 };
